@@ -20,12 +20,19 @@ public class OceanExplorer extends Application
 	  
 	  Image shipImage;
 	  ImageView shipImageView;
+	  
+	  Image PshipImage;
+	  ImageView PshipImageView;
+	  
 	  Image IslandImage;
 	  ImageView IslandImageView;
 	  OceanMap oceanMap=new OceanMap();
 	  Scene scene;
 	  Ship ship;
+	  PirateShip pship;
 	  Point startPoint;
+	  
+	  Point PstartPoint;
 	  
 	  int[] IslocX = new int[15];
 	  int[] IslocY = new int[15];
@@ -53,10 +60,28 @@ public class OceanExplorer extends Application
 		oceanStage.setTitle("My Island");
 		oceanStage.show();
 		drawMap(root);
+		
 		startPoint = OceanMap.getShipLocation();
 		ship = new Ship(startPoint.x,startPoint.y);
 		oceanStage.setScene(scene);
 		loadShipImage(root);
+		
+		for(int i =0 ;i < 2;i++)
+		{
+        	
+		PstartPoint = OceanMap.getPShipLocation();
+		if(PstartPoint.x != 0 && PstartPoint.y!=0 )
+		{
+		pship = new PirateShip(PstartPoint.x,PstartPoint.y);
+		oceanStage.setScene(scene);
+		loadPirateShipImage(root);
+		}
+		else
+		{
+			i--;
+		}
+		}
+		
         for(int i =0 ;i <11 ;i++)
 		{
         	
@@ -124,6 +149,19 @@ public class OceanExplorer extends Application
 		shipImageView.setX(startPoint.x*scale);
 		shipImageView.setY(startPoint.y*scale);
 		root.getChildren().add(shipImageView); 
+	
+		
+	}
+     
+     
+     public void loadPirateShipImage(AnchorPane root)
+     {
+		
+		Image PshipImage = new Image("pirateShip.png",50,50,true,true);
+		PshipImageView= new ImageView(PshipImage); 
+		PshipImageView.setX(PstartPoint.x*scale);
+		PshipImageView.setY(PstartPoint.y*scale);
+		root.getChildren().add(PshipImageView); 
 	
 		
 	}
