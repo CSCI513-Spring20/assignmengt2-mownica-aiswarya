@@ -20,25 +20,29 @@ public class OceanExplorer extends Application
 	  
 	  Image shipImage;
 	  ImageView shipImageView;
+	  Point startPoint;
 	  
 	  Image PshipImage;
 	  ImageView PshipImageView;
+	  Point PstartPoint;
 	  
+
 	  Image IslandImage;
 	  ImageView IslandImageView;
+	  int[] IslocX = new int[15];
+	  int[] IslocY = new int[15];
+	  
+	  Image PIslandImage;
+	  ImageView PIslandImageView;
+	  Point PIsstartPoint;
+	
+	  
 	  OceanMap oceanMap=new OceanMap();
 	  Scene scene;
 	  Ship ship;
 	  PirateShip pship;
-	  Point startPoint;
 	  
-	  Point PstartPoint;
 	  
-	  int[] IslocX = new int[15];
-	  int[] IslocY = new int[15];
-	 
-                        
-     
 	  public OceanExplorer() {
 			oceanGrid = oceanMap.getMap();
 		}
@@ -52,8 +56,9 @@ public class OceanExplorer extends Application
 	@Override
 	public void start(Stage oceanStage) throws Exception
 	{
-	int count =0;
+	    int count =0;
 		Point IsstartPoint = null;
+		Point PIsstartPoint = null;
 	    root = new AnchorPane();
 		Scene scene = new Scene(root,500,500);
 		oceanStage.setScene(scene);
@@ -92,6 +97,22 @@ public class OceanExplorer extends Application
 				IslocY[count] = IsstartPoint.y ;
 				loadIslandsImage(root,IsstartPoint);
 				count++;
+			}
+		}
+        for(int i =0 ;i <2 ;i++)
+		{
+        	
+			PIsstartPoint =  OceanMap.getPislandslocation();
+			if(PIsstartPoint.x != 0 && PIsstartPoint.y != 0)
+			{
+				IslocX[count] = PIsstartPoint.x ;
+				IslocY[count] = PIsstartPoint.y ;
+				loadPIslandsImage(root,PIsstartPoint);
+				count++;
+			}
+			else
+			{
+				i--;
 			}
 		}
 		startSailing(scene);
@@ -174,6 +195,17 @@ public class OceanExplorer extends Application
 		IslandImageView.setX(IsstartPoint.x*scale);
 		IslandImageView.setY(IsstartPoint.y*scale);
 		root.getChildren().add(IslandImageView); 
+	
+		
+	}
+     public void loadPIslandsImage(AnchorPane root,Point PIsstartPoint)
+     {
+		
+		Image PIslandImage = new Image("pirateIsland.png",50,50,true,true);
+		PIslandImageView= new ImageView(PIslandImage); 
+		PIslandImageView.setX(PIsstartPoint.x*scale);
+		PIslandImageView.setY(PIsstartPoint.y*scale);
+		root.getChildren().add(PIslandImageView); 
 	
 		
 	}
