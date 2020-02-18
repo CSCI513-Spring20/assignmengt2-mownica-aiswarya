@@ -17,8 +17,8 @@ public class OceanMap  {
 	static int countPs=0;
 	
 	static Random r=new Random();
-	boolean[][] oceanGrid=new boolean[10][10];
-	public boolean[][] getMap()
+	int[][] oceanGrid=new int[10][10];
+	public int[][] getMap()
 	{
 		return oceanGrid;
 	}

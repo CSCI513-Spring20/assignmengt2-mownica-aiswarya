@@ -1,6 +1,7 @@
 import java.awt.Point;
 import javafx.application.*;
 import javafx.scene.shape.Rectangle;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -8,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 
@@ -15,7 +17,7 @@ public class OceanExplorer extends Application
 {
 	 final int scale = 50;
 	  final int dimension=10;
-	  boolean[][] oceanGrid=new boolean[10][10];
+	  int[][] oceanGrid=new int[10][10];
 	  AnchorPane root;
 	  
 	  Image shipImage;
@@ -24,13 +26,14 @@ public class OceanExplorer extends Application
 	  
 	  Image PshipImage;
 	  ImageView PshipImageView;
+	  ImageView PshipImageView2;
 	  Point PstartPoint;
 	  
 
 	  Image IslandImage;
 	  ImageView IslandImageView;
-	  int[] IslocX = new int[15];
-	  int[] IslocY = new int[15];
+	  static int[] IslocX = new int[15];
+	  static int[] IslocY = new int[15];
 	  
 	  Image PIslandImage;
 	  ImageView PIslandImageView;
@@ -40,7 +43,8 @@ public class OceanExplorer extends Application
 	  OceanMap oceanMap=new OceanMap();
 	  Scene scene;
 	  Ship ship;
-	  PirateShip pship;
+	  PirateShip pship1;
+	  PirateShip pship2;
 	  
 	  
 	  public OceanExplorer() {
@@ -60,10 +64,17 @@ public class OceanExplorer extends Application
 		Point IsstartPoint = null;
 		Point PIsstartPoint = null;
 	    root = new AnchorPane();
-		Scene scene = new Scene(root,500,500);
-		oceanStage.setScene(scene);
-		oceanStage.setTitle("My Island");
-		oceanStage.show();
+	 /*   
+
+        Button reset = new Button("reset");
+        reset.setLayoutX(0);
+        reset.setLayoutY(500);
+        root.getChildren().add(reset);
+        
+        
+		*/
+		
+		
 		drawMap(root);
 		
 		startPoint = OceanMap.getShipLocation();
@@ -77,9 +88,21 @@ public class OceanExplorer extends Application
 		PstartPoint = OceanMap.getPShipLocation();
 		if(PstartPoint.x != 0 && PstartPoint.y!=0 )
 		{
-		pship = new PirateShip(PstartPoint.x,PstartPoint.y);
+			if( i== 0)
+			{
+		pship1 = new PirateShip(PstartPoint.x,PstartPoint.y,i,oceanGrid);
+		ship.addObserver(pship1);
 		oceanStage.setScene(scene);
 		loadPirateShipImage(root);
+			}
+			else
+			{
+			pship2 = new PirateShip(PstartPoint.x,PstartPoint.y,i,oceanGrid);
+			ship.addObserver(pship2);
+			oceanStage.setScene(scene);
+			loadPirateShipImage2(root);
+			}
+		
 		}
 		else
 		{
@@ -115,7 +138,29 @@ public class OceanExplorer extends Application
 				i--;
 			}
 		}
+        
+     /*
+        reset.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                try {
+                    start(oceanStage);
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
+        */
+        
+        Scene scene = new Scene(root,600,600);
+		oceanStage.setScene(scene);
+		oceanStage.setTitle("My Island");
+		oceanStage.show();
+        
 		startSailing(scene);
+		
+		
 		
 	}
 	private void startSailing(Scene scene)
@@ -144,9 +189,21 @@ public class OceanExplorer extends Application
 				}
 				shipImageView.setX(ship.getShipLocation().x * scale);
 				shipImageView.setY(ship.getShipLocation().y * scale);
+				PshipImageView.setX(pship1.getShipLocation1().x * scale);
+				PshipImageView.setY(pship1.getShipLocation1().y * scale);
+				PshipImageView2.setX(pship2.getShipLocation2().x * scale);
+				PshipImageView2.setY(pship2.getShipLocation2().y * scale);
 			}
 		});
 
+	}
+	
+	public int[] islandlocationsX() {
+		return IslocX;
+	}
+	
+	public int[] islandlocationsY() {
+		return IslocY;
 	}
 	 
 	public void drawMap(AnchorPane root)
@@ -183,6 +240,18 @@ public class OceanExplorer extends Application
 		PshipImageView.setX(PstartPoint.x*scale);
 		PshipImageView.setY(PstartPoint.y*scale);
 		root.getChildren().add(PshipImageView); 
+	
+		
+	}
+     
+     public void loadPirateShipImage2(AnchorPane root)
+     {
+		
+		Image PshipImage = new Image("pirateShip.png",50,50,true,true);
+		PshipImageView2= new ImageView(PshipImage); 
+		PshipImageView2.setX(PstartPoint.x*scale);
+		PshipImageView2.setY(PstartPoint.y*scale);
+		root.getChildren().add(PshipImageView2); 
 	
 		
 	}
