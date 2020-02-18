@@ -15,36 +15,36 @@ import javafx.scene.layout.AnchorPane;
 
 public class OceanExplorer extends Application
 {
-	 final int scale = 50;
-	  final int dimension=10;
-	  int[][] oceanGrid=new int[10][10];
+	 final int scale = 50;     // Initializing the scale
+	  final int dimension=10;  //Initializing the dimension
+	  int[][] oceanGrid=new int[10][10]; 
 	  AnchorPane root;
 	  
 	  Image shipImage;
-	  ImageView shipImageView;
-	  Point startPoint;
+	  ImageView shipImageView; //Declaring the shipimageview
+	  Point startPoint;        // Ship startpoint   
 	  
 	  Image PshipImage;
-	  ImageView PshipImageView;
-	  ImageView PshipImageView2;
-	  Point PstartPoint;
+	  ImageView PshipImageView;  //Declaring the PirateShipImageview
+	  ImageView PshipImageView2; //Declaring the PirateShip2ImageView
+	  Point PstartPoint;        //Ship pirateship start point
 	  
 
 	  Image IslandImage;
-	  ImageView IslandImageView;
-	  static int[] IslocX = new int[15];
-	  static int[] IslocY = new int[15];
+	  ImageView IslandImageView;  //Declaring the IslandShipView
+	int[] IslocXo = new int[15];  //Initializing  Islandlocation
+	   int[] IslocYo = new int[15];
 	  
 	  Image PIslandImage;
-	  ImageView PIslandImageView;
+	  ImageView PIslandImageView; //Declaring the pirateIslandImage View
 	  Point PIsstartPoint;
 	
 	  
-	  OceanMap oceanMap=new OceanMap();
-	  Scene scene;
+	  OceanMap oceanMap=new OceanMap(); //Declaring an object for OceanMap
+	  Scene scene; 
 	  Ship ship;
-	  PirateShip pship1;
-	  PirateShip pship2;
+	  PirateShip pship1;    //Declaring pirateship1
+	  PirateShip pship2;    //Declaring pirateship2
 	  
 	  
 	  public OceanExplorer() {
@@ -58,13 +58,14 @@ public class OceanExplorer extends Application
 	}
 
 	@Override
+	
 	public void start(Stage oceanStage) throws Exception
 	{
-	    int count =0;
-		Point IsstartPoint = null;
-		Point PIsstartPoint = null;
+		  
+		Point IsstartPoint = null;   //Declaring IslandStartPoint
+		Point PIsstartPoint = null;  //Declaring PirateIslandStartPoint
 	    root = new AnchorPane();
-	 /*   
+	    
 
         Button reset = new Button("reset");
         reset.setLayoutX(0);
@@ -72,15 +73,15 @@ public class OceanExplorer extends Application
         root.getChildren().add(reset);
         
         
-		*/
 		
 		
-		drawMap(root);
+		
+		drawMap(root);    //Calling the drawMap method
 		
 		startPoint = OceanMap.getShipLocation();
 		ship = new Ship(startPoint.x,startPoint.y);
 		oceanStage.setScene(scene);
-		loadShipImage(root);
+		loadShipImage(root);  //Calling the loadShipImage method
 		
 		for(int i =0 ;i < 2;i++)
 		{
@@ -109,8 +110,14 @@ public class OceanExplorer extends Application
 			i--;
 		}
 		}
+		int[] IslocX = new int[50];
+		  int[] IslocY = new int[50];
+		 int count =0;
 		
-        for(int i =0 ;i <11 ;i++)
+		   try {
+			  
+		   
+        for(int i =0 ;i <11 ;i++)  //generating Island locations
 		{
         	
 			IsstartPoint =  OceanMap.getislandslocation();
@@ -122,7 +129,15 @@ public class OceanExplorer extends Application
 				count++;
 			}
 		}
-        for(int i =0 ;i <2 ;i++)
+		   } catch (Exception e1) {
+               // TODO Auto-generated catch block
+           	System.out.println(e1);
+               e1.printStackTrace();
+           }
+		   
+try {
+        
+        for(int i =0 ;i <2 ;i++)  //generating the pirateIsland locations
 		{
         	
 			PIsstartPoint =  OceanMap.getPislandslocation();
@@ -138,8 +153,13 @@ public class OceanExplorer extends Application
 				i--;
 			}
 		}
-        
-     /*
+} catch (Exception e1) {
+ System.out.println(e1);
+  e1.printStackTrace();
+   }
+IslocXo = IslocX;
+IslocYo = IslocY;
+     
         reset.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -147,23 +167,23 @@ public class OceanExplorer extends Application
                     start(oceanStage);
                 } catch (Exception e1) {
                     // TODO Auto-generated catch block
+                	System.out.println(e1);
                     e1.printStackTrace();
                 }
             }
         });
-        */
         
-        Scene scene = new Scene(root,600,600);
+                Scene scene = new Scene(root,600,600); //Creating A new scene
 		oceanStage.setScene(scene);
 		oceanStage.setTitle("My Island");
-		oceanStage.show();
+		oceanStage.show();    //shows the grid
         
-		startSailing(scene);
+		startSailing(scene);  // starts the ship sailing
 		
 		
 		
 	}
-	private void startSailing(Scene scene)
+	private void startSailing(Scene scene) //startsailing method
 	{
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() 
 		{
@@ -172,41 +192,42 @@ public class OceanExplorer extends Application
 			{
 				switch (ke.getCode())
 				{
-				case RIGHT:
-					ship.goEast(IslocX,IslocY);
+				case RIGHT: 
+					ship.goEast(IslocXo,IslocYo); // moves the ship to right
 					break;
 				case LEFT:
-					ship.goWest(IslocX,IslocY);
+					ship.goWest(IslocXo,IslocYo); //moves the ship to left
 					break;
 				case UP:
-					ship.goNorth(IslocX,IslocY);
+					ship.goNorth(IslocXo,IslocYo);// moves the ship to up
 					break;
 				case DOWN:
-					ship.goSouth(IslocX,IslocY);
+					ship.goSouth(IslocXo,IslocYo); // moves the ship to down
 					break;
 				default:
 					break;
 				}
-				shipImageView.setX(ship.getShipLocation().x * scale);
+				shipImageView.setX(ship.getShipLocation().x * scale); // Sets the updated ShipImageview
 				shipImageView.setY(ship.getShipLocation().y * scale);
-				PshipImageView.setX(pship1.getShipLocation1().x * scale);
+				PshipImageView.setX(pship1.getShipLocation1().x * scale); // Sets the updated pirateShipImageview
 				PshipImageView.setY(pship1.getShipLocation1().y * scale);
-				PshipImageView2.setX(pship2.getShipLocation2().x * scale);
+				PshipImageView2.setX(pship2.getShipLocation2().x * scale); //// Sets the updated pirateShip2Imageview
 				PshipImageView2.setY(pship2.getShipLocation2().y * scale);
 			}
 		});
 
 	}
 	
-	public int[] islandlocationsX() {
-		return IslocX;
+	//Returns the all Island locations
+	public int[] islandlocationsX() { 
+		return IslocXo;
 	}
 	
 	public int[] islandlocationsY() {
-		return IslocY;
+		return IslocYo;
 	}
 	 
-	public void drawMap(AnchorPane root)
+	public void drawMap(AnchorPane root) // Drawmap Method
 	{
 		for(int x = 0; x < dimension; x++)
 		{
@@ -219,7 +240,7 @@ public class OceanExplorer extends Application
 			}
 		}
 	}
-     public void loadShipImage(AnchorPane root)
+     public void loadShipImage(AnchorPane root) //Loads the Shipimages
      {
 		
 		Image shipImage = new Image("ship.png",50,50,true,true);
@@ -232,7 +253,7 @@ public class OceanExplorer extends Application
 	}
      
      
-     public void loadPirateShipImage(AnchorPane root)
+     public void loadPirateShipImage(AnchorPane root) //loading the pirateShip Image1
      {
 		
 		Image PshipImage = new Image("pirateShip.png",50,50,true,true);
@@ -244,7 +265,7 @@ public class OceanExplorer extends Application
 		
 	}
      
-     public void loadPirateShipImage2(AnchorPane root)
+     public void loadPirateShipImage2(AnchorPane root) //loading the pirateShip Image2
      {
 		
 		Image PshipImage = new Image("pirateShip.png",50,50,true,true);
@@ -256,7 +277,7 @@ public class OceanExplorer extends Application
 		
 	}
      
-     public void loadIslandsImage(AnchorPane root,Point IsstartPoint)
+     public void loadIslandsImage(AnchorPane root,Point IsstartPoint) //loading the islandImages
      {
 		
 		Image IslandImage = new Image("island.png",50,50,true,true);
@@ -267,7 +288,7 @@ public class OceanExplorer extends Application
 	
 		
 	}
-     public void loadPIslandsImage(AnchorPane root,Point PIsstartPoint)
+     public void loadPIslandsImage(AnchorPane root,Point PIsstartPoint) //loading pirateisland images
      {
 		
 		Image PIslandImage = new Image("pirateIsland.png",50,50,true,true);

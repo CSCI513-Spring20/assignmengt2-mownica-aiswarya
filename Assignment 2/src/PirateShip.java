@@ -4,11 +4,12 @@ import java.util.Observer;
 
 import javafx.scene.layout.AnchorPane;
 
-public class PirateShip implements Observer{
+public class PirateShip implements Observer
+{
 	 static int X1;
-	static int Y1;
+	 static int Y1;
 	
-	 static int X2;
+	   static int X2;
 		static int Y2;
 		
 		int[] IslocX;
@@ -20,12 +21,12 @@ public class PirateShip implements Observer{
 	 int ship;
 	 public PirateShip(int x, int y,int Ship,int[][] oceangrid) {
 		 ship = Ship;
-if(ship == 0)
+if(ship == 0) //sets the first pirate ship
 {
 			X1 = x;
 			Y1 = y;
 }
-else
+else //sets the second pirate ship
 {
 			
 			X2 = x;
@@ -38,15 +39,18 @@ else
 	
 	}
 	
-	public static Point getShipLocation1() {
+	public static Point getShipLocation1() //returns first pirate ship location
+	{
 		return new Point(X1,Y1);
 	}
-	public static Point getShipLocation2() {
+	public static Point getShipLocation2() 
+	{  //returns second pirate ship location
 		return new Point(X2,Y2);
 	}
 
 	@Override
-	public void update(Observable S, Object arg1) {
+	public void update(Observable S, Object arg1) //overrides the super class update method
+	{
 		if(S instanceof Ship)
 		{
 			Shippos = ((Ship)S).getShipLocation();
@@ -59,7 +63,8 @@ else
 	}
 	
 	
-	public void Movement() {
+	public void Movement() //movement method for pirate Ships 
+	{
 		int X,Y;
 		if(ship == 0)
 		{
@@ -87,7 +92,7 @@ else
 		{
 			  if (X2 - Shippos.x == 0) {
 		       } else if (X2- Shippos.x < 0) {
-		           // checks for boundaries AND for islands (can't go through islands)
+		           // checks for boundaries and for islands 
 		    	   
 		           if (X2 < 9 && oceanGrid[X2 + 1][Y2] != 1)
 		        	   X2++;

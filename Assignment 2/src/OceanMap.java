@@ -2,27 +2,33 @@ import java.awt.Point;
 import java.util.Random;
 
 public class OceanMap  {
-
+     
+	//declaring ship coordinates
 	static int x,y;
-	//static int Px,Py;
-	static int[] Px = new int[15];
+	
+	//initializing pirateship coordinates
+	static int[] Px = new int[15];   
 	static int[] Py = new int[15];
 	static int countpx=0;
+	//initializing island coordinates
 	static int[] Isx =  new int[15];
 	static int[] Isy =  new int[15];
 	
+	//initializing PirateIsland coordinates
 	static int countIs=0;
 	static int[] Psx =  new int[15];
 	static int[] Psy  =  new int[15];
 	static int countPs=0;
 	
 	static Random r=new Random();
-	int[][] oceanGrid=new int[10][10];
+	int[][] oceanGrid=new int[10][10];  //Initializing the OceanGrid
 	public int[][] getMap()
 	{
 		return oceanGrid;
 	}
-	public static Point getShipLocation() {
+	public static Point getShipLocation() //get the random location for ship
+	{
+		
 			 x=r.nextInt(10);
 			 y=r.nextInt(10);
 		return new Point(x,y);
@@ -30,7 +36,10 @@ public class OceanMap  {
 	 
 	}
 	
-	public static Point getPShipLocation() {
+	public static Point getPShipLocation() //get the random location for PirateShip
+	{
+		 Px = new int[50];
+		 Py = new int[50];
 		 Px[countpx]=r.nextInt(10);
 		 Py[countpx]=r.nextInt(10);
 		 if(x != Px[countpx] || y != Py[countpx])
@@ -49,7 +58,10 @@ public class OceanMap  {
 		
 }
 	
-	public static Point getislandslocation() {
+	public static Point getislandslocation()  //get the random location for Islands
+	{
+		 Isx =  new int[50];
+		 Isy =  new int[50];
 			Boolean exists = false;
 		 Isx[countIs]=r.nextInt(10);
 		 Isy[countIs]=r.nextInt(10);
@@ -83,8 +95,11 @@ public class OceanMap  {
 	}
 	
 	
-	public static Point getPislandslocation() {
-		Boolean exists = false;
+	public static Point getPislandslocation()// method to get the get the random location for PirateShip
+	{
+		 Psx =  new int[15];
+		 Psy  =  new int[15];
+	     Boolean exists = false;
 		 Psx[countPs]=r.nextInt(10);
 		 Psy[countPs]=r.nextInt(10);
 		 if(x != Psx[countPs] || y != Psy[countPs])
